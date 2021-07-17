@@ -21,73 +21,93 @@ NewStudentModal and ConfirmRemovalModal components are just placed under the las
 
 */
 
+import React, { Component } from 'react'
+import { Table, Button } from 'reactstrap'
+import NewStudentModal from './NewStudentModal'
+import StudentDetails from './StudentDetails'
+import ConfirmRemovalModal from './ConfirmRemovalModal'
+import Home from './Home'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { Component } from "react";
-import { Table } from "reactstrap";
-import NewStudentModal from "./NewStudentModal";
-
-import ConfirmRemovalModal from "./ConfirmRemovalModal";
 
 class StudentList extends Component {
-  render() {
-    const students = this.props.students;
-    return (
-      <Table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Registration Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!students || students.length <= 0 ? (
-            <tr>
-              <td colSpan="6" align="center">
-                <b>No Record Found</b>
-              </td>
-            </tr>
-          ) : (
-            students.map(student => (
-              <tr key={student.pk}>
-                <td>{student.pk}</td>
-                <td>{student.firstName}</td>
-                <td>{student.lastName}</td>
-                <td>{student.registrationDate}</td>
-                <td >
-                  <NewStudentModal
-                    create={false}
-                    student={student}
-                    resetState={this.props.resetState}
-                  />
-                  &nbsp;&nbsp;
-                  <ConfirmRemovalModal
-                    pk={student.pk}
-                    resetState={this.props.resetState}
-                  />
-                </td>
+  state = {
+    renderView: 0,
+    student: null
+  }
+
+  clickBtn (student, value) {
+    console.log('yes')
+    console.log(student.firstName)
+    this.setState({
+      renderView: value,
+      student: student
+    })
+  }
+
+  render () {
+    const students = this.props.students
+    var obj = this
+    // var details = (
+
+    // )
+    console.log(this.state.renderView)
+    switch (this.state.renderView) {
+      case 1:
+        return <Home type='details' student={this.state.student} />
+      default:
+        return (
+          <Table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </Table>
-    );
+            </thead>
+            <tbody>
+              {!students || students.length <= 0 ? (
+                <tr>
+                  <td colSpan='6' align='center'>
+                    <b>No Record Found</b>
+                  </td>
+                </tr>
+              ) : (
+                students.map(student => (
+                  <tr key={student.pk}>
+                    <td>{student.pk}</td>
+                    <td>{student.firstName}</td>
+                    <td>{student.lastName}</td>
+                    <td>{student.registrationDate}</td>
+                    <td>
+                      <NewStudentModal
+                        create={false}
+                        student={student}
+                        resetState={this.props.resetState}
+                      />
+                      <Button
+                        onClick={function () {
+                          obj.clickBtn(student, 1)
+                        }}
+                        color='info'
+                        style={{ margin: '10px' }}
+                      >
+                        Details
+                      </Button>
+                      <ConfirmRemovalModal
+                        pk={student.pk}
+                        resetState={this.props.resetState}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+        )
+    }
   }
 }
 
-export default StudentList;
+export default StudentList
