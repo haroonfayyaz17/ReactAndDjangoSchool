@@ -21,34 +21,24 @@ import Home from './Home'
 
 class StudentList extends Component {
   state = {
-    renderView: 0,
     student: null
   }
 
   clickBtn (student, value) {
-    console.log('yes')
-    console.log(student.firstName)
+  
     this.setState({
-      renderView: value,
       student: student
     })
+    ReactDOM.render(
+      <Home type='details' student={student} />,
+      document.getElementById('root')
+    )
   }
 
   render () {
     const students = this.props.students
     var obj = this
-    // var details = (
-
-    // )
-    console.log(this.state.renderView)
-    switch (this.state.renderView) {
-      case 1:
-        ReactDOM.render(
-          <Home type='details' student={this.state.student} />,
-          document.getElementById('root')
-        )
-        break
-      default:
+    
         return (
           <Table>
             <thead>
@@ -101,7 +91,6 @@ class StudentList extends Component {
           </Table>
         )
     }
-  }
 }
 
 export default StudentList
