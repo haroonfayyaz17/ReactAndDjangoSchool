@@ -10,24 +10,14 @@ The map function will take care of the iteration by providing a variable (studen
 access each value.
 
 NewStudentModal and ConfirmRemovalModal components are just placed under the last <td>.
-
-
-
-
-
-
-
-
-
 */
 
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom';
 import { Table, Button } from 'reactstrap'
 import NewStudentModal from './NewStudentModal'
-import StudentDetails from './StudentDetails'
 import ConfirmRemovalModal from './ConfirmRemovalModal'
 import Home from './Home'
-
 
 class StudentList extends Component {
   state = {
@@ -53,7 +43,11 @@ class StudentList extends Component {
     console.log(this.state.renderView)
     switch (this.state.renderView) {
       case 1:
-        return <Home type='details' student={this.state.student} />
+        ReactDOM.render(
+          <Home type='details' student={this.state.student} />,
+          document.getElementById('root')
+        )
+        break
       default:
         return (
           <Table>

@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom';
 import { Container, Button } from 'reactstrap'
+import Home from './Home'
 
 class StudentDetails extends Component {
-  clickBtn () {}
+  clickBtn () {
+    ReactDOM.render(
+        <Home type='list' />,
+        document.getElementById('root')
+      )
+  }
 
   detailsContainer (student) {
       var obj=this
